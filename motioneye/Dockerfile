@@ -3,7 +3,7 @@ ARG BUILD_FROM=hassioaddons/base:7.2.0
 FROM ${BUILD_FROM}
 
 # Set shell
-#SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Copy Python requirements file
 COPY requirements.txt /tmp/
@@ -11,7 +11,7 @@ COPY requirements.txt /tmp/
 # Setup base
 RUN apk add --no-cache --virtual .build-dependencies \
         curl-dev=7.67.0-r0 \
-        gcc=9.3.0-r2 \
+        gcc=9.3.0-r0 \
         jpeg-dev=8-r6 \
         musl-dev=1.1.24-r2 \
         py2-pip=18.1-r0 \
