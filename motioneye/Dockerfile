@@ -3,22 +3,21 @@ ARG BUILD_FROM=hassioaddons/base:7.2.0
 FROM ${BUILD_FROM}
 
 # Set shell
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+#SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Copy Python requirements file
 COPY requirements.txt /tmp/
 
 # Setup base
-RUN \
-    apk add --no-cache --virtual .build-dependencies \
+RUN apk add --no-cache --virtual .build-dependencies \
         curl-dev=7.67.0-r0 \
         gcc=9.3.0-r2 \
         jpeg-dev=8-r6 \
         musl-dev=1.1.24-r2 \
         py2-pip=18.1-r0 \
-        python-dev=2.7.18-r0 \
-    \
-    && apk add --no-cache \
+        python-dev=2.7.18-r0
+
+RUN apk add --no-cache \
         cifs-utils=6.9-r1 \
         ffmpeg=4.2.1-r3 \
         libcurl=7.67.0-r0 \
@@ -27,12 +26,13 @@ RUN \
         motion@edge=4.3.1-r0 \
         nginx=1.16.1-r6 \
         py-setuptools=42.0.2-r0 \
-        python2=2.7.18-r0 \
-    \
-    && pip install --no-cache-dir -r /tmp/requirements.txt \
-    \
-    && apk del --no-cache --purge .build-dependencies \
-    && rm -f -r /tmp/*
+        python2=2.7.18-r0
+
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+RUN apk del --no-cache --purge .build-dependencies
+
+RUN rm -f -r /tmp/*
 
 # Copy root filesystem
 COPY rootfs /
